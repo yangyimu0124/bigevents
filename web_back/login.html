@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="main_wrap">
+        <div class="header">
+            <a href="#" class="logo"><img src="images/logo.png" alt=""></a>
+            <div class="copyright">CopyRight © 2019 深圳百秀信息技术股份有限公司<br>All Rights Reserved</div>
+        </div>
+
+        <div class="login_form_con">
+            <div class="login_title"></div>
+            <form class="login_form">
+                <i class="iconfont icon-user"></i>
+                <i class="iconfont icon-key"></i>
+                <input type="text" class="input_txt" placeholder="邮箱/手机号">
+                <input type="password" class="input_pass" placeholder="密码">
+                <input type="submit" class="input_sub" value="登 录" data-toggle="modal" data-target="#myModal">
+            </form>
+        </div>
+
+    </div> 
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">温馨提示:</h4>
+        </div>
+        <div class="modal-body" id="tex">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" id="guanbi">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/bootstrap/js/bootstrap.min.js"></script>
+   <script>
+       $(".input_sub").on("click",function(e){
+           e.preventDefault();
+           var userName = $(".input_txt").val().trim();
+           var password = $(".input_pass").val().trim();
+           if(userName == "" || password == ""){
+               alert("账号密码不能为空")
+           }
+           $.ajax({
+               type:"post",
+               url:"http://localhost:8000/admin/login",
+               data:{
+                   user_name:userName,
+                   password:password,
+               },
+               success:function(dataBack){
+                    if(dataBack.code == 400){
+                        $('#myModal').modal({
+                            keyboard: false,
+                        });
+                        $("#tex").text("账号或者密码错误")
+                        $("#guanbi").on('click',function(){
+                            $('#myModal').modal('hide');
+                        })
+                    }else{
+
+                       window.location.href="./index.html";
+                    }
+                     
+               }
+           })
+       })
+   </script>
+</body>
+</html>
